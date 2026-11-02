@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Doodh Khata Dairy App</title>
+  <title>Milk Khata Dairy App</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,7 +16,38 @@
         <small id="activeCustomerRate" class="sub-rate">Rate: ₹0/L</small>
       </div>
     </div>
-    <button id="openAddCustomerModal" class="btn-sm btn-primary">+ Grahak</button>
+    
+    <!-- Animated Cow & Milk Logo (Replaced + Grahak Button) -->
+    <div class="animated-logo-box" title="Milk Khata Dairy">
+      <svg class="dairy-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Cow Ears & Horns -->
+        <path d="M26 38C22 36 14 42 16 48C18 54 26 50 28 46" fill="#fed7aa"/>
+        <path d="M74 38C78 36 86 42 84 48C82 54 74 50 72 46" fill="#fed7aa"/>
+        <path d="M34 32C30 26 30 20 32 18C34 16 38 24 38 28" fill="#fdba74"/>
+        <path d="M66 32C70 26 70 20 68 18C66 16 62 24 62 28" fill="#fdba74"/>
+        <!-- Cow Head -->
+        <rect x="28" y="26" width="44" height="42" rx="20" fill="#f8fafc" stroke="#334155" stroke-width="3"/>
+        <path d="M38 28C38 35 48 36 50 30C52 26 44 26 38 28Z" fill="#1e293b"/>
+        <!-- Eyes -->
+        <circle cx="40" cy="42" r="3.5" fill="#0f172a"/>
+        <circle cx="60" cy="42" r="3.5" fill="#0f172a"/>
+        <circle cx="41.5" cy="40.5" r="1.2" fill="#ffffff"/>
+        <circle cx="61.5" cy="40.5" r="1.2" fill="#ffffff"/>
+        <!-- Snout -->
+        <ellipse cx="50" cy="56" rx="16" ry="10" fill="#fbcfe8" stroke="#334155" stroke-width="2"/>
+        <circle cx="45" cy="56" r="2" fill="#db2777"/>
+        <circle cx="55" cy="56" r="2" fill="#db2777"/>
+        <!-- Floating Milk Bottle -->
+        <g class="float-bottle">
+          <rect x="68" y="58" width="18" height="26" rx="4" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+          <path d="M72 54H82V58H72V54Z" fill="#38bdf8"/>
+          <rect x="71" y="68" width="12" height="13" rx="2" fill="#93c5fd"/>
+        </g>
+        <!-- Floating Splash Drops -->
+        <circle class="milk-drop d1" cx="82" cy="50" r="2.5" fill="#38bdf8"/>
+        <circle class="milk-drop d2" cx="64" cy="54" r="2" fill="#60a5fa"/>
+      </svg>
+    </div>
   </header>
 
   <!-- Side Navigation Drawer -->
@@ -30,6 +61,15 @@
     </div>
     <div id="customerListContainer" class="drawer-customer-list">
       <!-- Dynamic Customers List -->
+    </div>
+    
+    <!-- Drawer Footer: Direct Clickable Link on Devanantpatel -->
+    <div class="drawer-footer">
+      <div class="dev-badge">
+        👨‍💻 Developed by 
+        <a href="https://github.com/devanantpatel" target="_blank" rel="noopener noreferrer" class="dev-author-link">devanantpatel</a>
+      </div>
+      <p class="copyright-text">© 2026 Milk Khata Dairy. All Rights Reserved.</p>
     </div>
   </aside>
   <div id="drawerBackdrop" class="drawer-backdrop hidden"></div>
@@ -54,7 +94,13 @@
     <!-- Interactive Calendar -->
     <section class="card calendar-card">
       <div class="calendar-weekdays">
-        <div>Rav</div><div>Som</div><div>Man</div><div>Budh</div><div>Guru</div><div>Shuk</div><div>Shani</div>
+        <div>Sun</div>
+        <div>Mon</div>
+        <div>Tue</div>
+        <div>Wed</div>
+        <div>Thu</div>
+        <div>Fri</div>
+        <div>Sat</div>
       </div>
       <div id="calendarGrid" class="calendar-grid">
         <!-- Calendar Dates -->
@@ -97,7 +143,7 @@
   <div id="entrySheet" class="modal-overlay hidden">
     <div class="sheet-content">
       <div class="sheet-header">
-        <h4 id="sheetDateLabel">Tareekh Chune</h4>
+        <h4 id="sheetDateLabel">Date Chune</h4>
         <button id="closeSheetBtn" class="btn-close">✕</button>
       </div>
 
