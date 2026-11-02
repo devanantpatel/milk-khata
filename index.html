@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Doodh Khata Dairy App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-left">
+      <button id="openDrawerBtn" class="btn-hamburger" aria-label="Menu">☰</button>
+      <div>
+        <h1 id="activeCustomerTitle">Grahak Chune</h1>
+        <small id="activeCustomerRate" class="sub-rate">Rate: ₹0/L</small>
+      </div>
+    </div>
+    <button id="openAddCustomerModal" class="btn-sm btn-primary">+ Grahak</button>
+  </header>
+
+  <!-- Side Navigation Drawer -->
+  <aside id="appDrawer" class="drawer">
+    <div class="drawer-header">
+      <h3>Grahak List</h3>
+      <button id="closeDrawerBtn" class="btn-close">✕</button>
+    </div>
+    <div class="drawer-actions">
+      <button id="drawerAddBtn" class="btn-block btn-primary">+ Naya Grahak Jode</button>
+    </div>
+    <div id="customerListContainer" class="drawer-customer-list">
+      <!-- Dynamic Customers List -->
+    </div>
+  </aside>
+  <div id="drawerBackdrop" class="drawer-backdrop hidden"></div>
+
+  <!-- Main View -->
+  <main class="container">
+    <!-- Month Switcher -->
+    <section class="card month-bar">
+      <button id="prevMonthBtn" class="btn-arrow">◀</button>
+      <div id="monthYearTitle" class="month-label">November 2026</div>
+      <button id="nextMonthBtn" class="btn-arrow">▶</button>
+    </section>
+
+    <!-- Filter Strip -->
+    <section class="filter-strip">
+      <button class="filter-btn active" data-filter="all">Sabhi Din</button>
+      <button class="filter-btn" data-filter="delivered">Diya (>0L)</button>
+      <button class="filter-btn" data-filter="absent">Chhuti (0L)</button>
+      <button class="filter-btn" data-filter="exact1">1 Liter</button>
+    </section>
+
+    <!-- Interactive Calendar -->
+    <section class="card calendar-card">
+      <div class="calendar-weekdays">
+        <div>Rav</div><div>Som</div><div>Man</div><div>Budh</div><div>Guru</div><div>Shuk</div><div>Shani</div>
+      </div>
+      <div id="calendarGrid" class="calendar-grid">
+        <!-- Calendar Dates -->
+      </div>
+    </section>
+
+    <!-- Detailed Hisaab & WhatsApp Share Bill -->
+    <section class="card bill-card">
+      <div class="bill-header">
+        <div>
+          <h3 id="billCustHeading">Hisaab Patra</h3>
+          <span id="billMonthHeading" class="sub-rate">Mahina</span>
+        </div>
+        <button id="shareWhatsAppBtn" class="btn-wa">WhatsApp Hisaab</button>
+      </div>
+
+      <div class="bill-stats">
+        <div class="bill-stat-row">
+          <span>Kul Doodh (Total Milk):</span>
+          <strong id="billTotalMilk">0.00 L</strong>
+        </div>
+        <div class="bill-stat-row">
+          <span>Delivery Din:</span>
+          <strong id="billDeliveryDays" class="text-green">0 Din</strong>
+        </div>
+        <div class="bill-stat-row">
+          <span>Nahi Liya (Chhuti):</span>
+          <strong id="billAbsentDays" class="text-red">0 Din</strong>
+        </div>
+        <hr class="bill-divider">
+        <div class="bill-stat-row total-highlight">
+          <span>Kul Rakam (Total Bill):</span>
+          <strong id="billTotalAmount" class="price-highlight">₹0</strong>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Quantity Entry Bottom Sheet -->
+  <div id="entrySheet" class="modal-overlay hidden">
+    <div class="sheet-content">
+      <div class="sheet-header">
+        <h4 id="sheetDateLabel">Tareekh Chune</h4>
+        <button id="closeSheetBtn" class="btn-close">✕</button>
+      </div>
+
+      <div class="quick-qty-grid">
+        <button type="button" class="btn-chip" data-val="0.25">1 Paaw (0.25L)</button>
+        <button type="button" class="btn-chip" data-val="0.5">Aadha Ltr (0.5L)</button>
+        <button type="button" class="btn-chip" data-val="1.0">1.0 Liter</button>
+        <button type="button" class="btn-chip" data-val="1.5">1.5 Liter</button>
+        <button type="button" class="btn-chip" data-val="2.0">2.0 Liter</button>
+        <button type="button" class="btn-chip chip-zero" data-val="0">Nahi Liya (0L)</button>
+      </div>
+
+      <div class="counter-box">
+        <div class="stepper-col">
+          <span class="stepper-label">Liter</span>
+          <div class="stepper">
+            <button id="decLitre" class="btn-step">-</button>
+            <span id="displayLitre" class="step-num">1</span>
+            <button id="incLitre" class="btn-step">+</button>
+          </div>
+        </div>
+        <div class="stepper-col">
+          <span class="stepper-label">Paaw (250ml)</span>
+          <div class="stepper">
+            <button id="decPaaw" class="btn-step">-</button>
+            <span id="displayPaaw" class="step-num">0</span>
+            <button id="incPaaw" class="btn-step">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="total-preview">
+        Quantity: <strong id="previewTotal">1.00 L</strong>
+      </div>
+
+      <button id="saveDayEntryBtn" class="btn-block btn-accent">Save Karein</button>
+    </div>
+  </div>
+
+  <!-- Modal: Add / Edit Customer -->
+  <div id="customerModal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <h3 id="modalTitle">Naya Grahak Jode</h3>
+      <input type="hidden" id="editCustId">
+      <div class="form-group">
+        <label>Grahak Ka Naam:</label>
+        <input type="text" id="newCustName" placeholder="Jaise: Ramesh Sharma" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label>Mobile Number (WhatsApp):</label>
+        <input type="tel" id="newCustPhone" placeholder="10 Digit Number">
+      </div>
+      <div class="form-group">
+        <label>Doodh Rate (₹ per Liter):</label>
+        <input type="number" id="newCustRate" placeholder="60" value="60">
+      </div>
+      <div class="modal-actions">
+        <button id="cancelModalBtn" class="btn-secondary">Cancel</button>
+        <button id="saveCustomerBtn" class="btn-primary">Save Karein</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
