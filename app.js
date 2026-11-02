@@ -30,7 +30,6 @@ const appDrawer = document.getElementById('appDrawer');
 const drawerBackdrop = document.getElementById('drawerBackdrop');
 const customerListContainer = document.getElementById('customerListContainer');
 const drawerAddBtn = document.getElementById('drawerAddBtn');
-const openAddCustomerModal = document.getElementById('openAddCustomerModal');
 const activeCustomerTitle = document.getElementById('activeCustomerTitle');
 const activeCustomerRate = document.getElementById('activeCustomerRate');
 
@@ -260,7 +259,7 @@ function renderCalendarAndBill() {
   billAbsentDays.textContent = `${absentDays} Din`;
   billTotalAmount.textContent = `₹${totalAmount}`;
 
-  // WhatsApp Share Setup (Clean Text, No ERR_UNKNOWN_URL_SCHEME)
+  // WhatsApp Share Setup
   shareWhatsAppBtn.onclick = () => {
     let msg = `*DOODH HISAAB PARCHA*\n`;
     msg += `----------------------------\n`;
@@ -268,7 +267,7 @@ function renderCalendarAndBill() {
     msg += `Mahina: *${monthNames[month]} ${year}*\n`;
     msg += `Rate: *Rs.${currentCust.rate}/Liter*\n`;
     msg += `----------------------------\n`;
-    msg += `*TAREEKH-WAR ROZANA HISAAB:*\n`;
+    msg += `*Date-Wise Daily HISAAB:*\n`;
 
     if (monthLogRecords.length === 0) {
       msg += `Is mahine koi entry darj nahi hai.\n`;
@@ -276,10 +275,10 @@ function renderCalendarAndBill() {
       monthLogRecords.forEach(r => {
         const dayFormatted = String(r.dayNum).padStart(2, '0');
         if (r.qty === 0) {
-          msg += `Tareekh ${dayFormatted}: Nahi Liya (Chhuti)\n`;
+          msg += `Date ${dayFormatted}: Nahi Liya (Chhuti)\n`;
         } else {
           const cost = Math.round(r.qty * currentCust.rate);
-          msg += `Tareekh ${dayFormatted}: ${r.qty.toFixed(2)} Liter (Rs.${cost})\n`;
+          msg += `Date ${dayFormatted}: ${r.qty.toFixed(2)} Liter (Rs.${cost})\n`;
         }
       });
     }
@@ -290,14 +289,14 @@ function renderCalendarAndBill() {
     msg += `Chhuti Wale Din: *${absentDays} Din*\n`;
     msg += `*KUL BILL: Rs.${totalAmount}*\n`;
     msg += `----------------------------\n`;
-    msg += `Doodh Khata Dairy App`;
+    msg += `Doodh Khata Dairy App -> https://devanantpatel.github.io/milk-khata\n`;
+    msg += `developed by -> Devanantpatel = https://github.com/devanantpatel`;
 
     let cleanPhone = (currentCust.phone || '').replace(/[^0-9]/g, '');
     if (cleanPhone.length === 10) cleanPhone = '91' + cleanPhone;
 
     const encodedMsg = encodeURIComponent(msg);
 
-    // Standard Universal Web Link (100% Mobile & WebView Compatible)
     let waUrl = cleanPhone.length >= 10
       ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodedMsg}`
       : `https://api.whatsapp.com/send?text=${encodedMsg}`;
@@ -310,7 +309,7 @@ function renderCalendarAndBill() {
 function openDaySheet(dateKey) {
   selectedDateStr = dateKey;
   const currentCust = getCurrentCustomer();
-  sheetDateLabel.textContent = `Tareekh: ${dateKey}`;
+  sheetDateLabel.textContent = `Date: ${dateKey}`;
 
   const existingQty = currentCust.logs[dateKey];
   if (existingQty !== undefined) {
@@ -359,7 +358,6 @@ function openCustomerModal(cust = null) {
   customerModal.classList.remove('hidden');
 }
 
-openAddCustomerModal.onclick = () => openCustomerModal();
 drawerAddBtn.onclick = () => openCustomerModal();
 cancelModalBtn.onclick = () => customerModal.classList.add('hidden');
 
@@ -375,7 +373,6 @@ saveCustomerBtn.onclick = () => {
   }
 
   if (targetId) {
-    // Edit existing customer
     const existing = appData.customers.find(c => c.id === targetId);
     if (existing) {
       existing.name = name;
@@ -383,7 +380,6 @@ saveCustomerBtn.onclick = () => {
       existing.rate = rate;
     }
   } else {
-    // Add new customer
     const newCust = {
       id: 'c_' + Date.now(),
       name: name,
